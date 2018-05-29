@@ -4,10 +4,14 @@
   "description": "Proxy to authenticate requests to epicenter APIs",
   "main": "index.js",
   "dependencies": {
+    "cookie": "^0.3.1",
+    "cookies": "^0.7.1",
     "express": "^4.16.3",
+    "jwt-decode": "^2.2.0",
     "request": "^2.87.0"
   },
   "devDependencies": {
+    "cookie-parser": "^1.4.3",
     "express-http-proxy": "^1.2.0",
     "nodemon": "^1.17.5"
   },
