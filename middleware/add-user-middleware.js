@@ -11,6 +11,7 @@ function userFromJWT(jwt) {
         id: decoded.user_id,
         userName: userName,
         account: decoded.parent_account_id,
+        isFac: true, //logged into epicenter, so probably an author
     };
 }
 
@@ -27,9 +28,25 @@ function userFromAuthHeader(authHeader) {
     const jwt = authHeader.split(' ')[1];
     return userFromJWT(jwt);
 }
+function userFromEpicenterJS(cookieHeader) {
+    const cookies = cookieParser.parse([].concat(cookieHeader || '')[0]);
+    const contents = cookies['epicenterjs.session'];
+    if (!contents) {
+        return null;
+    }
+    const parsed = JSON.parse(contents);
+    return {
+        isFac: parsed.isFac,
+        id: parsed.userId,
+        userName: parsed.userName,
+        groupId: parsed.groupId,
+        account: parsed.account,
+    };
+}
 
 module.exports = function addUserMiddleware(req, res, next) {
-    const user = userFromAuthHeader(req.headers.authorization) || userFromCookie(req.headers.cookie);
+    const cookieheader = req.headers.cookie;
+    const user = userFromEpicenterJS(cookieheader) || userFromAuthHeader(req.headers.authorization) || userFromCookie(cookieheader);
     req.user = user;
     next();  
 };
