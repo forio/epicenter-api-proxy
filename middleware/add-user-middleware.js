@@ -8,7 +8,7 @@ function userFromJWT(jwt) {
     const decoded = jwtdecode(jwt);
     const userName = decoded.user_name.split('/')[0];
     return {
-        userId: decoded.user_id,
+        id: decoded.user_id,
         userName: userName,
         account: decoded.parent_account_id,
     };
@@ -24,7 +24,7 @@ function userFromAuthHeader(authHeader) {
     if (!authHeader) {
         return null;
     }
-    const jwt = authHeader.split(' ')[0];
+    const jwt = authHeader.split(' ')[1];
     return userFromJWT(jwt);
 }
 
