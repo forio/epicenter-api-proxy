@@ -18,5 +18,5 @@ exports.fetchFromAPI = function fetchFromAPI(req, cb) {
 };
 
 exports.pipeRequest = function pipeRequest(req, res, url) {
-    req.pipe(request(url)).pipe(res);
+    req.pipe(request(`${serverRoot}/${url}`)).pipe(res);
 };

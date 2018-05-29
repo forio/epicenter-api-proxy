@@ -1,7 +1,5 @@
 const { fetchFromAPI, pipeRequest } = require('../../utils/url');
 
-const serverRoot = 'https://api.forio.com/v2';
-
 const express = require('express');
 const runRouter = express.Router();
 
@@ -11,14 +9,12 @@ function isValidRun(run, user) {
     return (!run.user || run.user.id === user.id);
 }
 
-
 runRouter.get('/run/:account/:project/:runfilter', (req, res, next)=> {
     const { account, project, runfilter } = req.params;
 
-    const { isFac } = req.user;
-    if (isFac) {
-        const apiURL = `${serverRoot}/${req.url}`;
-        return pipeRequest(req, res, apiURL);
+    const { isFac, isTeamMember } = req.user;
+    if (isFac || isTeamMember) {
+        return pipeRequest(req, res, req.url);
     }
 
     const isMatrixParameter = runfilter.indexOf(';') === 0;
@@ -56,8 +52,8 @@ runRouter.get('/run/:account/:project/:runfilter', (req, res, next)=> {
         });
     } 
     const actualFilter = hasUserFilter ? runfilter : `${useridFilter}${runfilter}`;
-    const apiURL = `${serverRoot}/run/${account}/${project}/${actualFilter}`;
-    pipeRequest(req, res, apiURL);
+    const apiURL = `run/${account}/${project}/${actualFilter}`;
+    return pipeRequest(req, res, apiURL);
 });
 
 module.exports = runRouter;

@@ -11,7 +11,7 @@ function userFromJWT(jwt) {
         id: decoded.user_id,
         userName: userName,
         account: decoded.parent_account_id,
-        isFac: true, //logged into epicenter, so probably an author
+        isTeamMember: true, //logged into epicenter, so probably an author
     };
 }
 
@@ -37,6 +37,7 @@ function userFromEpicenterJS(cookieHeader) {
     const parsed = JSON.parse(contents);
     return {
         isFac: parsed.isFac,
+        isTeamMember: parsed.isTeamMember,
         id: parsed.userId,
         userName: parsed.userName,
         groupId: parsed.groupId,
