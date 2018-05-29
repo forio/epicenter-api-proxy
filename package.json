@@ -8,6 +8,7 @@
     "request": "^2.87.0"
   },
   "devDependencies": {
+    "express-http-proxy": "^1.2.0",
     "nodemon": "^1.17.5"
   },
   "scripts": {

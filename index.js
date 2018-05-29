@@ -1,8 +1,13 @@
 const express = require('express');
+let request = require('request');
+request = request.defaults({jar: true});
+
 const app = express();
 
-app.get('/', (req, res)=> {
-    res.send('hello world');
+const serverRoot = 'https://api.forio.com/v2/';
+app.get('/*', (req, res)=> {
+    const apiURL = `${serverRoot}/${req.url}`;
+    req.pipe(request(apiURL)).pipe(res);
 });
 
 const PORT = 3000;
