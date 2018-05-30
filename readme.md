@@ -1,6 +1,6 @@
 # Epicenter API Proxies
 
-This repository contains proxies for Epicenter APIs, designed to provide an extra level of authentication for common API requests.
+This repository contains Node.js proxies for Epicenter APIs, designed to provide an extra level of authentication for common API requests.
 
 ## Pre-requisites
 
@@ -32,7 +32,6 @@ To automatically redirect all requests made with Epicenter.js, override the `get
 
 For EpicenterJS versions >= 2.7.0
 ```js
-var u = new F.service.URL();
 F.service.URL.defaults.baseURL = 'proxy/';
 ```
 
@@ -55,12 +54,16 @@ You can select/override individual proxies by requiring them directly.
 
 ```js
 const express = require('express');
+const userMiddleware = require('epicenter-api-proxy/middleware/add-user-middleware');
 const runAPIProxy = require('epicenter-api-proxy/run-api-proxy');
 const dataAPIProxy = require('epicenter-api-proxy/data-api-proxy');
 const app = express();
+app.use(userMiddleware); // populates req.user from the session
 app.use('/run-api', runAPIProxy);
 app.use('/data-api', dataAPIProxy);
 ```
+
+Each proxy returns an instance of an [Express Router](https://expressjs.com/en/4x/api.html#router), which you can use to add new middleware/ paths
 
 ## Notes
 
@@ -79,14 +82,15 @@ Scoping is not enforced for any other keys, but you're free to use them at your 
 const am = new F.manager.AuthManager();
 const session = am.getCurrentUserSession();
 
-const groupKey = `some-name_group_${session.groupId}`;
+const { groupId, userId } = session;
+const groupKey = `some-name_group_${groupId}`;
 const groupScopeDataService = new F.service.Data({ root: groupKey });
 
-const userKey = `some-name_user_${session.userId}_group_${session.groupId}`;
+const userKey = `some-name_user_${userId}_group_${session.groupId}`;
 const userScopeDataService = new F.service.Data({ root: userKey });
 ```
 
-#### Usage with DataManager (available in EpicenterJS > 2.7)
+#### Usage with DataManager (available in EpicenterJS >= 2.7)
 
 ```js
 const DataManager = F.manager.Data;
