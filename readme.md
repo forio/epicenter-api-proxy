@@ -1,8 +1,8 @@
-#Epicenter API Proxies
+# Epicenter API Proxies
 
 This repository contains proxies for Epicenter APIs, designed to provide an extra level of authentication for common API requests.
 
-##Pre-requisites
+## Pre-requisites
 
 - Enable NodeJS on your Epicenter project (requires an Enterprise account)
 - Set Node version to v6.11.1
@@ -10,12 +10,12 @@ This repository contains proxies for Epicenter APIs, designed to provide an extr
 
 ![Node settings](node-settings.png "Node settings")
 
-##Install
+## Install
 ```
 $ npm install --save epicenter-api-proxy
 ```
 
-##Usage
+## Usage
 
 ### Use all default proxies
 
