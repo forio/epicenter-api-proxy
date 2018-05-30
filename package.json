@@ -2,7 +2,7 @@
   "name": "epicenter-api-proxy",
   "version": "1.0.0",
   "description": "Proxy to authenticate requests to epicenter APIs",
-  "main": "api/index.js",
+  "main": "api-proxies/index.js",
   "dependencies": {
     "cookie": "^0.3.1",
     "express": "^4.16.3",
