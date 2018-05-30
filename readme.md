@@ -61,6 +61,6 @@ app.use('/data-api', dataAPIProxy);
 Scoping for the Data API is enforced by convention; Use:
 
 * '<key>_group_<groupid>' as the collection name (the `root` field in `F.service.Data`) for group-level settings.
-* '<key>_user_<userid>' as the collection name (the `root` field in `F.service.Data`) for user-level settings.
+* '<key>_user_<userid>_group_<groupid>' as the collection name (the `root` field in `F.service.Data`) for user-level settings.
 
 Scoping is not enforced for any other keys, but you're free to use them at your discretion.
