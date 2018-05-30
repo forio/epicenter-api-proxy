@@ -1,5 +1,3 @@
-const { pipeRequest } = require('../../utils/url');
-
 const express = require('express');
 const dataRouter = express.Router();
 
@@ -12,10 +10,10 @@ function unauthorizedError(req, res) {
         }
     });
 }
-function blockForNonFacs(req, res) {
+function blockForNonFacs(req, res, next) {
     const { isFac, isTeamMember } = req.user;
     if (isFac || isTeamMember) {
-        return pipeRequest(req, res, req.url);
+        return next();
     }
     return unauthorizedError(req, res);
 }
@@ -23,7 +21,7 @@ function blockForNonFacs(req, res) {
 dataRouter.get('/data/:account/:project/:collectionName-:groupId/:documentId?', (req, res, next)=> {
     const { isFac, isTeamMember, groupId } = req.user;
     if (isFac || isTeamMember || groupId === req.params.groupId) {
-        return pipeRequest(req, res, req.url);
+        return next();
     }
     return unauthorizedError(req, res);
 });
