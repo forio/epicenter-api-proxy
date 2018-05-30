@@ -1,9 +1,11 @@
 const { pipeRequest } = require('../utils/url');
 
 const express = require('express');
-const multiRunRouter = express.Router();
+const multiRunRouter = express.Router({
+    mergeParams: true,
+});
 
-multiRunRouter.route('/run/:account/:project/:runfilter*').get((req, res, next)=> {
+multiRunRouter.route('/:account/:project/:runfilter*').get((req, res, next)=> {
     const { account, project, runfilter } = req.params;
 
     const useridFilter = `;user.id=${req.user.id}`;

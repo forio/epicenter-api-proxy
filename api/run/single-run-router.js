@@ -11,8 +11,8 @@ function isValidRun(run, user) {
     return (!run.user || run.user.id === user.id);
 }
 
-singleRunRouter.route('/run/:account/:project/:runid([a-zA-Z0-9]{36})').get((req, res, next)=> {
-    return fetchFromAPI(req, (err, runResponse, body)=> {
+singleRunRouter.route('/:account/:project/:runid([a-zA-Z0-9]{36})/:rest?*').get((req, res, next)=> {
+    return fetchFromAPI(req, `run/${req.url}`, (err, runResponse, body)=> {
         const { runid } = req.params;
         res.status(runResponse.statusCode);
         if (err || validStatusCodes.indexOf(runResponse.statusCode) === -1) {

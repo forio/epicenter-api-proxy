@@ -8,11 +8,11 @@ const runRouter = express.Router();
 function skipIfFac(req, res, next) {
     const { isFac, isTeamMember } = req.user;
     if (isFac || isTeamMember) {
-        return pipeRequest(req, res, req.url);
+        return pipeRequest(req, res, `run/${req.url}`);
     }
     return next();
 }
-runRouter.use([skipIfFac, singleRunRouter, multiRunRouter]);
+runRouter.use('/run', [skipIfFac, singleRunRouter, multiRunRouter]);
 
 
 module.exports = runRouter;

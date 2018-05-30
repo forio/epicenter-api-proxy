@@ -7,14 +7,14 @@ function toAbsoluteURL(url) {
     return `https://${fullURL}`;    
 }
 
-exports.fetchFromAPI = function fetchFromAPI(req, cb) {
+exports.fetchFromAPI = function fetchFromAPI(req, url, cb) {
     const headers = Object.assign(req.headers);
     delete headers['accept-encoding'];
     delete headers.host;
 
     request({
         method: req.method,
-        url: toAbsoluteURL(req.url),
+        url: toAbsoluteURL(url),
         gzip: false,
         json: true,
         headers: headers
