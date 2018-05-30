@@ -38,7 +38,7 @@ function passThrough(req, res, next) {
     const url = `run/${account}/${project}/${runid}/${rest}`;
     return pipeRequest(req, res, url);
 }
-const runFilter = '/run/:account/:project/:runid([a-zA-Z0-9]{36})/*';
+const runFilter = '/run/:account/:project/:runid([a-f0-9]{36})/*';
 singleRunProxy.use(runFilter, [checkRunPermission, passThrough]);
 
 module.exports = singleRunProxy;

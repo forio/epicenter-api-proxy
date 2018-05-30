@@ -5,7 +5,7 @@ const multiRunProxy = express.Router({
     mergeParams: true,
 });
 
-multiRunProxy.get('/:account/:project/:runfilter*', (req, res, next)=> {
+multiRunProxy.get('/run/:account/:project/:runfilter*', (req, res, next)=> {
     const { account, project, runfilter } = req.params;
 
     const useridFilter = `;user.id=${req.user.id}`;
