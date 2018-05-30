@@ -17,7 +17,7 @@ $ npm install --save epicenter-api-proxy
 
 ## Usage
 
-### Option 1: Use all default proxies
+### Option 1: Use all default proxies (recommended)
 
 Node
 ```js
@@ -43,7 +43,7 @@ Note: Override as early as possible, before you instantiate any services/manager
 
 ### Option 2: Pick and choose individual proxies
 
-You can choose/override individual proxies by requiring them directly.
+You can select/override individual proxies by requiring them directly.
 
 ```js
 const express = require('express');
@@ -51,6 +51,7 @@ const runAPIProxy = require('epicenter-api-proxy/run-api-proxy');
 const dataAPIProxy = require('epicenter-api-proxy/data-api-proxy');
 const app = express();
 app.use('/run-api', runAPIProxy);
+app.use('/data-api', dataAPIProxy);
 ```
 
 ## Notes
