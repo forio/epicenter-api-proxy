@@ -85,7 +85,7 @@ const userScopeDataService = new DataManager({
 
 While scoping is only enforced for routes matching these patterns, you're free to use any other names at your discretion. See below for information on how to build custom access roles.
 
-### Run API Scoping
+### Run API scoping
 
 By default the proxy enforces the following rules:
 
@@ -100,7 +100,7 @@ By default the proxy enforces the following rules:
 - If you're an end-user, you can only access your own runs.
 - If you're a facilitator, you can only access all runs in your group.
 
-## Customizing Proxies
+## Customizing proxies
 
 ### Pick and choose individual proxies
 
