@@ -4,7 +4,6 @@ const express = require('express');
 const dataRouter = express.Router();
 
 function unauthorizedError(req, res) {
-    const { groupId } = req.user;
     res.status(401).json({
         message: `Insufficient privileges to access ${req.url}`,
         context: {
@@ -21,7 +20,7 @@ function blockForNonFacs(req, res) {
     return unauthorizedError(req, res);
 }
 
-dataRouter.get('/data/:account/:project/settings-:groupId/:documentId?', (req, res, next)=> {
+dataRouter.get('/data/:account/:project/:collectionName-:groupId/:documentId?', (req, res, next)=> {
     const { isFac, isTeamMember, groupId } = req.user;
     if (isFac || isTeamMember || groupId === req.params.groupId) {
         return pipeRequest(req, res, req.url);
@@ -29,9 +28,9 @@ dataRouter.get('/data/:account/:project/settings-:groupId/:documentId?', (req, r
     return unauthorizedError(req, res);
 });
 
-dataRouter.put('/data/:account/:project/settings-:groupId/:documentId?', blockForNonFacs);
-dataRouter.patch('/data/:account/:project/settings-:groupId/:documentId?', blockForNonFacs);
-dataRouter.post('/data/:account/:project/settings-:groupId/:documentId?', blockForNonFacs);
-dataRouter.delete('/data/:account/:project/settings-:groupId/:documentId?', blockForNonFacs);
+dataRouter.put('/data/:account/:project/:collectionName-:groupId/:documentId?', blockForNonFacs);
+dataRouter.patch('/data/:account/:project/:collectionName-:groupId/:documentId?', blockForNonFacs);
+dataRouter.post('/data/:account/:project/:collectionName-:groupId/:documentId?', blockForNonFacs);
+dataRouter.delete('/data/:account/:project/:collectionName-:groupId/:documentId?', blockForNonFacs);
 
 module.exports = dataRouter;
