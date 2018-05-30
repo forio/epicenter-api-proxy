@@ -1,5 +1,6 @@
 const express = require('express');
 
+const basePattern = '/data/:account/:project';
 function checkAndReject(condition, req, res, next) {
     const allow = condition(req.params, req.user);
     if (allow) {
@@ -19,13 +20,13 @@ module.exports = function dataAPIRouterFactory(params) {
     const { match, canRead, canWrite } = params;
     const dataAPIProxy = express.Router();
 
-    dataAPIProxy.get(match, (req, res, next)=> {
+    dataAPIProxy.get(`${basePattern}/${match}`, (req, res, next)=> {
         checkAndReject(canRead, req, res, next);
     });
 
     const writeMethods = ['put', 'patch', 'post', 'delete',];
     writeMethods.forEach((method)=> {
-        dataAPIProxy[method](match, (req, res, next)=> {
+        dataAPIProxy[method](`${basePattern}/${match}`, (req, res, next)=> {
             checkAndReject(canWrite, req, res, next);
         });
     });

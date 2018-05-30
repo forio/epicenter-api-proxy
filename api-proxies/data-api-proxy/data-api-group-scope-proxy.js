@@ -1,7 +1,6 @@
 const factory = require('./data-api-router-factory');
 
-const basePattern = '/data/:account/:project';
-const GROUP_PATTERN = `${basePattern}/:collection_group_:groupId/:documentId?`;
+const GROUP_PATTERN = '/:collection_group_:groupId/:documentId?';
 
 function groupScopeReadCheck(params, user) {
     const { isFac, isTeamMember } = user;
