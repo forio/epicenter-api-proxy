@@ -48,6 +48,14 @@ function userFromEpicenterJS(cookieHeader) {
 module.exports = function addUserMiddleware(req, res, next) {
     const cookieheader = req.headers.cookie;
     const user = userFromEpicenterJS(cookieheader) || userFromAuthHeader(req.headers.authorization) || userFromCookie(cookieheader);
+    if (!user && req.url.indexOf('authentication') === -1) {
+        return res.status(401).json({
+            message: 'No authentication found, please log in',
+            context: {
+                url: req.url
+            }
+        });
+    }
     req.user = user;
     next();  
 };
