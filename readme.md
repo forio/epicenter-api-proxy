@@ -6,9 +6,6 @@ This repository contains Node.js proxies for Epicenter APIs, designed to provide
 
 - Enable NodeJS on your Epicenter project (requires an Enterprise account)
 - Set Node version to v6.11.1
-- (Recommended) Block API calls to standard endpoints
-
-![Node settings](node-settings.png "Node settings")
 
 ## Installation
 ```
@@ -147,3 +144,10 @@ app.use('proxy/run/:account/:project/:runfilter*', (req, res, next)=> {
 ```
 
 
+### Appendix: Blocking access to standard endpoints.
+
+As an final note, the approach detailed in this README adds additional restrictions on existing Forio APIs.   For a more complete approach, you will want to block API calls to the standard endpoints (e.g. api.forio.com).   
+
+This setting can be found in Epicenter under Project Settings / Node Settings.  Choose "Block API calls to standard endpoints".   This prevents direct access to project APIs.  Specifically, it blocks access with end user/facilitator tokens from external sources.   Access is allowed when calling from within the NodeJs application, or when using a project access token / team member user token.
+
+![Node settings](node-settings.png "Node settings")
