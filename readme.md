@@ -144,7 +144,7 @@ app.use('proxy/run/:account/:project/:runfilter*', (req, res, next)=> {
 ```
 
 
-## Appendix: Blocking access to standard endpoints.
+## Appendix: Blocking access to standard endpoints
 
 As an final note, the approach detailed in this README adds additional restrictions on existing Forio APIs forwarded through this proxy.   For a more complete approach, you will want to block API calls to the standard endpoints (e.g. api.forio.com).   
 
