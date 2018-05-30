@@ -17,7 +17,7 @@ $ npm install --save epicenter-api-proxy
 
 ## Usage
 
-### Use all default proxies
+### Option 1: Use all default proxies
 
 Node
 ```js
@@ -41,13 +41,25 @@ F.service.URL.defaults.getAPIPath = function(api) {
 ```
 Note: Override as early as possible, before you instantiate any services/managers.
 
-### Pick and choose individual proxies
+### Option 2: Pick and choose individual proxies
 
 You can choose/override individual proxies by requiring them directly.
 
 ```js
 const express = require('express');
 const runAPIProxy = require('epicenter-api-proxy/run-api-proxy');
+const dataAPIProxy = require('epicenter-api-proxy/data-api-proxy');
 const app = express();
 app.use('/run-api', runAPIProxy);
 ```
+
+## Notes
+
+### Data API scoping
+
+Scoping for the Data API is enforced by convention; Use:
+
+* '<key>_group_<groupid>' as the collection name (the `root` field in `F.service.Data`) for group-level settings.
+* '<key>_user_<userid>' as the collection name (the `root` field in `F.service.Data`) for user-level settings.
+
+Scoping is not enforced for any other keys, but you're free to use them at your discretion.
