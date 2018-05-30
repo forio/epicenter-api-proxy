@@ -21,7 +21,7 @@ function blockForNonFacs(req, res) {
     return unauthorizedError(req, res);
 }
 
-dataRouter.get('/data/:account/:project/settings-:groupId/(.*)', (req, res, next)=> {
+dataRouter.get('/data/:account/:project/settings-:groupId/:documentId?', (req, res, next)=> {
     const { isFac, isTeamMember, groupId } = req.user;
     if (isFac || isTeamMember || groupId === req.params.groupId) {
         return pipeRequest(req, res, req.url);
@@ -29,8 +29,9 @@ dataRouter.get('/data/:account/:project/settings-:groupId/(.*)', (req, res, next
     return unauthorizedError(req, res);
 });
 
-dataRouter.put('/data/:account/:project/settings-:groupId/(.*)', blockForNonFacs);
-dataRouter.patch('/data/:account/:project/settings-:groupId/(.*)', blockForNonFacs);
-dataRouter.post('/data/:account/:project/settings-:groupId/(.*)', blockForNonFacs);
+dataRouter.put('/data/:account/:project/settings-:groupId/:documentId?', blockForNonFacs);
+dataRouter.patch('/data/:account/:project/settings-:groupId/:documentId?', blockForNonFacs);
+dataRouter.post('/data/:account/:project/settings-:groupId/:documentId?', blockForNonFacs);
+dataRouter.delete('/data/:account/:project/settings-:groupId/:documentId?', blockForNonFacs);
 
 module.exports = dataRouter;
