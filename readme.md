@@ -29,6 +29,14 @@ app.use('/proxy', apiProxies);
 ```
 
 To automatically redirect all requests made with Epicenter.js, override the `getAPIPath` function as follows:
+
+For EpicenterJS versions >= 2.7.0
+```js
+var u = new F.service.URL();
+F.service.URL.defaults.baseURL = 'proxy/';
+```
+
+For EpicenterJS versions < 2.7.0
 ```js
 var u = new F.service.URL();
 F.service.URL.defaults.getAPIPath = function(api) {
@@ -58,9 +66,36 @@ app.use('/data-api', dataAPIProxy);
 
 ### Data API scoping
 
-Scoping for the Data API is enforced by convention; Use:
+Scoping for the Data API is enforced by convention; use the following patterns:
 
-* '<key>_group_<groupid>' as the collection name (the `root` field in `F.service.Data`) for group-level settings.
-* '<key>_user_<userid>_group_<groupid>' as the collection name (the `root` field in `F.service.Data`) for user-level settings.
+* '<key>_group_<groupid>' as the collection name for group-level settings.
+* '<key>_user_<userid>_group_<groupid>' as the collection name for user-level settings.
 
 Scoping is not enforced for any other keys, but you're free to use them at your discretion.
+
+#### Usage with DataService
+
+```js
+const am = new F.manager.AuthManager();
+const session = am.getCurrentUserSession();
+
+const groupKey = `some-name_group_${session.groupId}`;
+const groupScopeDataService = new F.service.Data({ root: groupKey });
+
+const userKey = `some-name_user_${session.userId}_group_${session.groupId}`;
+const userScopeDataService = new F.service.Data({ root: userKey });
+```
+
+#### Usage with DataManager (available in EpicenterJS > 2.7)
+
+```js
+const DataManager = F.manager.Data;
+const groupScopeDataService = new DataManager({ 
+    name: 'some-name',
+    scope: DataManager.SCOPES.GROUP,
+});
+const userScopeDataService = new DataManager({ 
+    name: 'some-name',
+    scope: DataManager.SCOPES.USER,
+});
+```
