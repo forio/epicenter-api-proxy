@@ -10,7 +10,7 @@ This repository contains Node.js proxies for Epicenter APIs, designed to provide
 
 ![Node settings](node-settings.png "Node settings")
 
-## Install
+## Installation
 ```
 $ npm install --save epicenter-api-proxy
 ```
@@ -140,6 +140,8 @@ app.use(customRouter);
 ### Add custom Run API rules
 ```js
 app.use('proxy/run/:account/:project/:runfilter*', (req, res, next)=> {
+    const { isFac, id, groupId } = req.user; //added by middleware
+    const { runfilter } = req.params;
     //Make sure you add this before the run-api router to override it
 });
 ```
