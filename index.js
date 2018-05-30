@@ -1,9 +1,8 @@
 const express = require('express');
 var cors = require('cors');
 
-const routeOverrides = require('./api');
+const apiProxies = require('./api-proxies');
 const addUserMiddleware = require('./middleware/add-user-middleware');
-// const defaultAPIMiddleware = require('./middleware/default-api-passthrough-middleware');
 
 const app = express();
 app.use(cors({ credentials: true, origin: (origin, cb)=> {
@@ -11,7 +10,7 @@ app.use(cors({ credentials: true, origin: (origin, cb)=> {
 }}));
 
 app.use(addUserMiddleware);
-app.use(routeOverrides);
+app.use('/api', apiProxies);
 app.use((req, res)=> {
     res.status(404);
     res.json({ error: 'Not found' });

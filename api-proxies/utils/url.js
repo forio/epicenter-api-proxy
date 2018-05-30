@@ -7,18 +7,19 @@ function toAbsoluteURL(url) {
     return `https://${fullURL}`;    
 }
 
-exports.fetchFromAPI = function fetchFromAPI(req, url, cb) {
+exports.fetchFromAPI = function fetchFromAPI(req, url, options, cb) {
     const headers = Object.assign(req.headers);
     delete headers['accept-encoding'];
+    delete headers['content-length'];
     delete headers.host;
 
-    request({
-        method: req.method,
+    request(Object.assign({}, {
+        method: 'GET',
         url: toAbsoluteURL(url),
         gzip: false,
         json: true,
         headers: headers
-    }, cb);
+    }, options), cb);
 };
 
 exports.pipeRequest = function pipeRequest(req, res, url) {

@@ -1,9 +1,9 @@
-const singleRunRouter = require('./single-run-router');
-const multiRunRouter = require('./multi-run-router');
+const singleRunProxy = require('./single-run-proxy');
+const multiRunProxy = require('./multi-run-proxy');
 const { pipeRequest } = require('../utils/url');
 
 const express = require('express');
-const runRouter = express.Router();
+const runProxy = express.Router();
 
 function skipIfFac(req, res, next) {
     const { isFac, isTeamMember } = req.user;
@@ -12,7 +12,8 @@ function skipIfFac(req, res, next) {
     }
     return next();
 }
-runRouter.use('/run', [skipIfFac, singleRunRouter, multiRunRouter]);
+runProxy.use('/run', skipIfFac);
+runProxy.use([singleRunProxy, multiRunProxy]);
 
 
-module.exports = runRouter;
+module.exports = runProxy;

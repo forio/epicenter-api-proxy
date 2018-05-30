@@ -1,1 +1,0 @@
-const addUserMiddleware = require('./add-user-middleware');
