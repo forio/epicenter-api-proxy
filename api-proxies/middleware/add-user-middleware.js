@@ -11,14 +11,15 @@ function userFromJWT(jwt) {
         id: decoded.user_id,
         userName: userName,
         account: decoded.parent_account_id,
-        isTeamMember: true, //logged into epicenter, so probably an author
     };
 }
 
 function userFromCookie(cookieHeader) {
     const cookies = cookieParser.parse([].concat(cookieHeader || '')[0]);
     const jwt = cookies['epicenter.token'];
-    return userFromJWT(jwt);
+    const user = userFromJWT(jwt);
+    user.isTeamMember = true;
+    return user;
 }
 
 function userFromAuthHeader(authHeader) {
