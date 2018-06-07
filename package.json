@@ -1,6 +1,6 @@
 {
   "name": "epicenter-api-proxy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Proxy to authenticate requests to epicenter APIs",
   "main": "lib/index.js",
   "dependencies": {
