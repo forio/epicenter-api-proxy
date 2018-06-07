@@ -1,7 +1,7 @@
 const express = require('express');
 var cors = require('cors');
 
-const apiProxies = require('./api-proxies');
+const apiProxies = require('./lib');
 
 const app = express();
 app.use(cors({ credentials: true, origin: (origin, cb)=> {

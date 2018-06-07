@@ -69,20 +69,6 @@ const userKey = `some-name_user_${userId}_group_${session.groupId}`;
 const userScopeDataService = new F.service.Data({ root: userKey });
 ```
 
-#### Usage with DataManager (available in EpicenterJS >= 2.7)
-
-```js
-const DataManager = F.manager.Data;
-const groupScopeDataService = new DataManager({ 
-    name: 'some-name',
-    scope: DataManager.SCOPES.GROUP,
-});
-const userScopeDataService = new DataManager({ 
-    name: 'some-name',
-    scope: DataManager.SCOPES.USER,
-});
-```
-
 While scoping is only enforced for routes matching these patterns, you're free to use any other names at your discretion. See below for information on how to build custom access roles.
 
 ### Run API scoping
@@ -108,9 +94,9 @@ You can select/override individual proxies by requiring them directly.
 
 ```js
 const express = require('express');
-const userMiddleware = require('epicenter-api-proxy/middleware/add-user-middleware');
-const runAPIProxy = require('epicenter-api-proxy/run-api-proxy');
-const dataAPIProxy = require('epicenter-api-proxy/data-api-proxy');
+const userMiddleware = require('epicenter-api-proxy/lib/middleware/add-user-middleware');
+const runAPIProxy = require('epicenter-api-proxy/lib/run-api-proxy');
+const dataAPIProxy = require('epicenter-api-proxy/lib/data-api-proxy');
 const app = express();
 app.use(userMiddleware); // populates req.user from the session
 app.use('/run-api', runAPIProxy);
@@ -119,9 +105,10 @@ app.use('/data-api', dataAPIProxy);
 
 ### Add custom Data API rules
 ```js
-const factory = require('epicenter-api-proxy/api-proxies/data-api-proxy/data-api-router-factory');
+
+const factory = require('epicenter-api-proxy/lib/data-api-proxy/data-api-router-factory');
 const customRouter = factory({
-    match: '/settings-collection',
+    match: 'settings-collection',
     canRead: (requestParams, userSession)=> {
         const { isFac, id, groupId } = userSession;
         return true; //returning false will return a 401
@@ -131,7 +118,7 @@ const customRouter = factory({
         return true;
     },
 });
-app.use(customRouter);
+app.use(customRouter);// will match /data/<acc>/<project>/settings-collection
 ```
 
 ### Add custom Run API rules
