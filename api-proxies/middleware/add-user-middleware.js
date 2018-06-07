@@ -1,24 +1,25 @@
 const cookieParser = require('cookie');
 const jwtdecode = require('jwt-decode');
 
-function userFromJWT(jwt) {
+function userFromJWT(jwt, props) {
     if (!jwt) {
         return null;
     }
     const decoded = jwtdecode(jwt);
     const userName = decoded.user_name.split('/')[0];
-    return {
+    return Object.assign({
         id: decoded.user_id,
         userName: userName,
         account: decoded.parent_account_id,
-    };
+    }, props);
 }
 
 function userFromCookie(cookieHeader) {
     const cookies = cookieParser.parse([].concat(cookieHeader || '')[0]);
     const jwt = cookies['epicenter.token'];
-    const user = userFromJWT(jwt);
-    user.isTeamMember = true;
+    const user = userFromJWT(jwt, {
+        isTeamMember: true
+    });
     return user;
 }
 
@@ -27,7 +28,7 @@ function userFromAuthHeader(authHeader) {
         return null;
     }
     const jwt = authHeader.split(' ')[1];
-    return userFromJWT(jwt);
+    return userFromJWT(jwt, {});
 }
 function userFromEpicenterJS(cookieHeader) {
     const cookies = cookieParser.parse([].concat(cookieHeader || '')[0]);
