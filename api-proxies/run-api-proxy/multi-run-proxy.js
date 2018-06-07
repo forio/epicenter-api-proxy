@@ -5,9 +5,10 @@ const multiRunProxy = express.Router({
     mergeParams: true,
 });
 
-multiRunProxy.get('/run/:account/:project/:runfilter*', (req, res, next)=> {
-    const { account, project, runfilter } = req.params;
+function handleMultiRunFilter(req, res, next) {
+    const { account, project } = req.params;
 
+    const runfilter = req.params[0] || '';
     const useridFilter = `;user.id=${req.user.id}`;
     const hasUserFilter = runfilter.indexOf('user.id') !== -1;
     const isFilteringForMyself = runfilter.indexOf(useridFilter) !== -1;
@@ -24,6 +25,11 @@ multiRunProxy.get('/run/:account/:project/:runfilter*', (req, res, next)=> {
     const actualFilter = hasUserFilter ? runfilter : `${useridFilter}${runfilter}`;
     const apiURL = `run/${account}/${project}/${actualFilter}`;
     return pipeRequest(req, res, apiURL);
-});
+}
+// multiRunProxy.get(, handleMultiRunFilter);
+multiRunProxy.get([
+    '/run/:account/:project',
+    '/run/:account/:project/*'
+], handleMultiRunFilter);
 
 module.exports = multiRunProxy;

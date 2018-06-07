@@ -8,7 +8,7 @@ app.use(cors({ credentials: true, origin: (origin, cb)=> {
     cb(null, true);
 }}));
 
-app.use('/api', apiProxies);
+app.use('/api-proxy', apiProxies);
 app.use((req, res)=> {
     res.status(404);
     res.json({ error: 'Not found' });
