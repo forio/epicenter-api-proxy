@@ -105,7 +105,10 @@ app.use('/data-api', dataAPIProxy);
 
 ### Add custom Data API rules
 ```js
-
+const express = require('express');
+const userMiddleware = require('epicenter-api-proxy/lib/middleware/add-user-middleware');
+const defaultApiProxy = require('epicenter-api-proxy/lib/default-api-proxy');
+const app = express();
 const factory = require('epicenter-api-proxy/lib/data-api-proxy/data-api-router-factory');
 const customRouter = factory({
     match: 'settings-collection',
@@ -118,15 +121,23 @@ const customRouter = factory({
         return true;
     },
 });
-app.use(customRouter);// will match /data/<acc>/<project>/settings-collection
+app.use('/api-proxy', userMiddleware); // populates userSession from the session
+app.use('/api-proxy', customRouter); // applies read/write logic for /data/<acc>/<project>/settings-collection
+app.use('/api-proxy', defaultApiProxy); // need this to handle the actual request
 ```
 
 ### Add custom Run API rules
 ```js
+const express = require('express');
+const userMiddleware = require('epicenter-api-proxy/lib/middleware/add-user-middleware');
+const app = express();
+app.use('proxy', userMiddleware); // populates req.user from the session
 app.use('proxy/run/:account/:project/:runfilter*', (req, res, next)=> {
     const { isFac, id, groupId } = req.user; //added by middleware
     const { runfilter } = req.params;
     //Make sure you add this before the run-api router to override it
+
+    /*  define custom run api logic here ... */
 });
 ```
 
