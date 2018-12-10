@@ -121,9 +121,11 @@ const customRouter = factory({
         return true;
     },
 });
-app.use('/api-proxy', userMiddleware); // populates userSession from the session
-app.use('/api-proxy', customRouter); // applies read/write logic for /data/<acc>/<project>/settings-collection
-app.use('/api-proxy', defaultApiProxy); // need this to handle the actual request
+app.use('/api-proxy', [
+    userMiddleware,  // populates userSession from the session
+    customRouter, //applies read/write logic for /data/<acc>/<project>/settings-collection
+    defaultApiProxy, //need this to handle the actual request
+]);
 ```
 
 ### Add custom Run API rules
